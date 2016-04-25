@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=gbk">
+<title>灯光精灵</title>
+<script type="text/javascript" src="xmlhttprequest.js"></script> 
+<SCRIPT language="javascript">
+var req = null;
+
+
+function $(element)
+{
+	return document.getElementById(element);
+
+}
+
+function handleResponse()
+{
+ 	
+}
+
+function exec(commmand)
+{	
+
+	if(req!=null&&req.readyStatus<4){
+		//log("last request is not done yet");
+		return false;
+	}
+	req = new XMLHttpRequest();
+	req.onreadystatechange = handleResponse;
+	req.open('GET', commmand);
+	req.send(null);	
+}
+
+function executeCommand()
+{	
+	exec("/hacontrol"+$("command").value);
+	return false;
+}
+
+</script>
+
+<style>
+html,body{ margin:0; padding:0; height:100%; width:100%; }
+#full-size{
+  height:100%;
+  width:100%;
+  overflow:hidden; /* or overflow:auto; if you want scrollbars */
+}
+</style>
+
+
+</head>
+
+<body>
+<div id="full-size">
+  Your contents go here
+</div>
+
+</body>
+</html>

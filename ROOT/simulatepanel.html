@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=gbk">
+<title>控制测试模拟器</title>
+<script type="text/javascript" src="xmlhttprequest.js"></script> 
+<SCRIPT language="javascript">
+var req = null;
+
+function handleResponse()
+{
+	//alert("text");
+	if(req.readyState!=4){
+		return;
+	}
+	if (req.status == 200) {
+		//alert(req.responseText);
+		//document.getElementById("form").getElementById("content").value=req.responseText;
+		//document.forms["form"].elements["content"].value=req.responseText;
+		processResponse (req.responseXML);
+		var showvalue=req.responseText;
+		//alert(showvalue);
+		showvalue=showvalue
+		.replace(/</g,"&lt;")
+		.replace(/>/g,"&gt;")
+		.replace(/response/g,"response");
+		
+		log("Server Response: "+showvalue+"");
+		return;
+  	}
+	if (req.status >= 500) {
+		//alert(req.responseText);
+		//document.getElementById("form").getElementById("content").value=req.responseText;
+		//document.forms["form"].elements["content"].value=req.responseText;
+		processResponse (req.responseXML);
+		log("Server Response: "+req.responseText);
+  	}
+  	
+  	
+}
+function setElementInnerHTML(element,text)
+{
+	document.getElementById(element).innerHTML=text;
+
+}
+
+function log(message)
+{
+	if(true){
+		var oldmessage=document.getElementById("log").innerHTML;
+		
+		setElementInnerHTML("log",oldmessage+"<br>"+timeExpr()+": "+message);
+	}
+}
+function clearLog()
+{	
+	setElementInnerHTML("log","");
+}
+
+function timeExpr()
+{
+	var now=new Date();
+	return format(now.getHours())+":"+format(now.getMinutes())+":"+format(now.getSeconds());
+	
+}
+function format(num)
+{
+	if(num>9){
+		return num+"";
+	}
+	return "0"+num;
+}
+
+function setElementInnerHTML(element,text)
+{
+	document.getElementById(element).innerHTML=text;
+
+}
+function $(element)
+{
+	return document.getElementById(element);
+
+}
+function setValue(element,text)
+{
+	$(element).value=text;
+
+}
+function showErrorResponse(text)
+{
+	
+	//document.getElementById("content").innerHTML=text;
+	//document.all['content'].innerHTML=text;	
+
+}
+function processResponse(xmlObject)
+{
+	
+	
+}
+
+
+
+function exec(commmand)
+{	
+
+	if(req!=null&&req.readyStatus<4){
+		log("last request is not done yet");
+		return false;
+	}
+	req = new XMLHttpRequest();
+	req.onreadystatechange = handleResponse;
+	req.open('GET', commmand);
+	req.send(null);
+	log("<a href=javascript:exec('"+commmand+"')>"+commmand+"</a>");
+}
+
+function executeCommand()
+{	
+	exec("/softcontrol"+$("command").value);
+	return false;
+}
+
+
+function setCommandDefaultValue(element)
+{	
+	//alert(element.value);
+	setValue("command",element.value);
+	
+}
+</script>
+</head>
+
+<body>
+<div>
+<!--
+
+-->
+<form onsubmit="return executeCommand();" align="center">
+<select onchange="setCommandDefaultValue(this)" >
+    <option value="/queryLightStatus/0/0/">&lt;请选择&gt;</option>
+	<option value="/queryLightStatus/0/2/">查询灯光状态</option>
+	<option value="/queryLightInfo/0/2/">查询灯光信息</option>
+	
+	<option value="/switchOnLight/0/0/">开灯</option>
+	<option value="/switchOffLight/0/0/">关灯</option>
+	<option value="/adjustLight/0/2/10/">调整灯光亮度</option>
+	<option value="/setLightColor/0/0/Red/Green/Blue/">设置灯光颜色</option>
+	<option value="/getLightColor/0/0/">查询灯光颜色</option>
+	
+	<option value="/openRollerShutter/0/1/">拉开窗帘</option>
+	<option value="/closeRollerShutter/0/1/">关闭窗帘</option>
+	
+	<option value="/openRollerShutterSlowly/0/1/">慢慢拉开窗帘</option>
+	
+	<option value="/closeRollerShutterSlowly/0/1/">慢慢关闭窗帘</option>
+	<option value="/queryRollerShutterStatus/0/1/">查询窗帘状态</option>
+	<option value="/queryRollerShutterInfo/0/1/">查询窗帘信息</option>
+	<option value="/queryTopology/">查询网络结构</option>
+	<option value="/queryCachedTopology/">查询缓存网络结构</option>
+	
+	<option value="/startNodeDiscovery/0/">注册模块</option>
+	<option value="/deleteAllNodes/0/">删除所有模块</option>
+	<option value="/deleteNode/0/0/">删除一个模块</option>
+	
+</select >
+<input id="command" type="text" size="40"/><input type="submit" value="测试"/>
+<input type="button" value="清除日志" onclick="clearLog()" />
+</form>
+<br/>
+</div>
+<hr/>
+<div id='log'>
+</div>
+</body>
+</html>

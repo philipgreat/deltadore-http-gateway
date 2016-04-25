@@ -1,0 +1,1283 @@
+package deltadore.x2d.control;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.Vector;
+
+final class l
+  implements Controller, DirectController, MeshController, Runnable
+{
+  private Thread d = null;
+  private volatile boolean e = false;
+  private volatile boolean f = false;
+  private InputStream g = null;
+  private OutputStream h = null;
+  private Vector i = new Vector();
+  private Vector j = new Vector();
+  private Vector k = new Vector();
+  private Vector l = new Vector();
+  private Vector m = new Vector();
+  private Vector n = new Vector();
+  a a = new a();
+  k[] b = null;
+  g c = new g(this);
+  private static Class o;
+  private static Class p;
+  private static Class q;
+  private static Class r;
+  private static Class s;
+  private static Class t;
+  private static Class u;
+  private static Class v;
+  private static Class w;
+  private static Class x;
+  private static Class y;
+  private static Class z;
+  private static Class A;
+  private static Class B;
+  private static Class C;
+  private static Class D;
+  private static Class E;
+  private static Class F;
+  private static Class G;
+  private static Class H;
+  private static Class I;
+  private static Class J;
+  private static Class K;
+  private static Class L;
+  private static Class M;
+  private static Class N;
+  private static Class O;
+  private static Class P;
+  private static Class Q;
+  private static Class R;
+  private static Class S;
+  private static Class T;
+  private static Class U;
+  private static Class V;
+  private static Class W;
+  private static Class X;
+  private static Class Y;
+  private static Class Z;
+  private static Class aa;
+  private static Class ab;
+  private static Class ac;
+  private static Class ad;
+  private static Class ae;
+  private static Class af;
+  private static Class ag;
+  private static Class ah;
+  private static Class ai;
+  private static Class aj;
+  private static Class ak;
+  private static Class al;
+  private static Class am;
+  private static Class an;
+  private static Class ao;
+  private static Class ap;
+  private static Class aq;
+
+  public final int getReceivedCount()
+  {
+    return this.a.a();
+  }
+
+  public final int getSentCount()
+  {
+    return this.a.b();
+  }
+
+  public final int getErrorCount()
+  {
+    return this.a.c();
+  }
+
+  public final int getTimeoutCount()
+  {
+    return this.a.d();
+  }
+
+  public final synchronized void addMessageReceivedListener(MessageReceivedListener paramMessageReceivedListener)
+  {
+    this.i.addElement(paramMessageReceivedListener);
+  }
+
+  public final synchronized void removeMessageReceivedListener(MessageReceivedListener paramMessageReceivedListener)
+  {
+    this.i.removeElement(paramMessageReceivedListener);
+  }
+
+  final synchronized void a(MessageReceivedEvent paramMessageReceivedEvent)
+  {
+    Enumeration localEnumeration = this.i.elements();
+    while (localEnumeration.hasMoreElements())
+      ((MessageReceivedListener)localEnumeration.nextElement()).messageReceived(paramMessageReceivedEvent);
+  }
+
+  public final synchronized void addFrameReceivedListener(FrameReceivedListener paramFrameReceivedListener)
+  {
+    this.j.addElement(paramFrameReceivedListener);
+  }
+
+  public final synchronized void removeFrameReceivedListener(FrameReceivedListener paramFrameReceivedListener)
+  {
+    this.j.removeElement(paramFrameReceivedListener);
+  }
+
+  final synchronized void a(FrameIoEvent paramFrameIoEvent)
+  {
+    Enumeration localEnumeration = this.j.elements();
+    while (localEnumeration.hasMoreElements())
+      ((FrameReceivedListener)localEnumeration.nextElement()).frameReceived(paramFrameIoEvent);
+  }
+
+  public final synchronized void addFrameSentListener(FrameSentListener paramFrameSentListener)
+  {
+    this.k.addElement(paramFrameSentListener);
+  }
+
+  public final synchronized void removeFrameSentListener(FrameSentListener paramFrameSentListener)
+  {
+    this.k.removeElement(paramFrameSentListener);
+  }
+
+  private synchronized void b(FrameIoEvent paramFrameIoEvent)
+  {
+    Enumeration localEnumeration = this.k.elements();
+    while (localEnumeration.hasMoreElements())
+      ((FrameSentListener)localEnumeration.nextElement()).frameSent(paramFrameIoEvent);
+  }
+
+  public final synchronized void addAcknowledgmentListener(AcknowledgmentListener paramAcknowledgmentListener)
+  {
+    this.l.addElement(paramAcknowledgmentListener);
+  }
+
+  public final synchronized void removeAcknowledgmentListener(AcknowledgmentListener paramAcknowledgmentListener)
+  {
+    this.l.removeElement(paramAcknowledgmentListener);
+  }
+
+  final synchronized void a(AcknowledgmentEvent paramAcknowledgmentEvent)
+  {
+    Enumeration localEnumeration = this.l.elements();
+    while (localEnumeration.hasMoreElements())
+      ((AcknowledgmentListener)localEnumeration.nextElement()).acknowledgment(paramAcknowledgmentEvent);
+  }
+
+  public final synchronized void addEndTransactionListener(EndTransactionListener paramEndTransactionListener)
+  {
+    this.m.addElement(paramEndTransactionListener);
+  }
+
+  public final synchronized void removeEndTransactionListener(EndTransactionListener paramEndTransactionListener)
+  {
+    this.m.removeElement(paramEndTransactionListener);
+  }
+
+  final synchronized void a(EndTransactionEvent paramEndTransactionEvent)
+  {
+    Enumeration localEnumeration = this.m.elements();
+    while (localEnumeration.hasMoreElements())
+      ((EndTransactionListener)localEnumeration.nextElement()).endTransaction(paramEndTransactionEvent);
+  }
+
+  public final synchronized void addNodeDiscoveredListener(NodeDiscoveredListener paramNodeDiscoveredListener)
+  {
+    this.n.addElement(paramNodeDiscoveredListener);
+  }
+
+  public final synchronized void removeNodeDiscoveredListener(NodeDiscoveredListener paramNodeDiscoveredListener)
+  {
+    this.n.removeElement(paramNodeDiscoveredListener);
+  }
+
+  final synchronized void a(NodeDiscoveredEvent paramNodeDiscoveredEvent)
+  {
+    Enumeration localEnumeration = this.n.elements();
+    while (localEnumeration.hasMoreElements())
+      ((NodeDiscoveredListener)localEnumeration.nextElement()).nodeDiscovered(paramNodeDiscoveredEvent);
+  }
+
+  public final synchronized void open(InputStream paramInputStream, OutputStream paramOutputStream)
+  {
+    if (!this.f)
+    {
+      this.g = paramInputStream;
+      this.h = paramOutputStream;
+      this.e = false;
+      this.f = true;
+      this.d = new Thread(this);
+      this.d.start();
+    }
+  }
+
+  public final synchronized void close()
+  {
+    if (this.f)
+    {
+      this.e = true;
+      try
+      {
+        this.g.close();
+        this.h.close();
+      }
+      catch (IOException localIOException)
+      {
+      }
+      try
+      {
+        this.d.join();
+        return;
+      }
+      catch (Exception localException)
+      {
+      }
+    }
+  }
+
+  public final void setEnrollmentListeningMode(boolean paramBoolean)
+  {
+    d locald = new d(this, null);
+    this.c = locald;
+    boolean bool = paramBoolean;
+    paramBoolean = locald;
+    byte[] arrayOfByte;
+    if (bool)
+      arrayOfByte = new byte[] { 10, 0, -128, 1, 1, 0, 0, -128 };
+    else
+      arrayOfByte = new byte[] { 10, 0, -128, 1 };
+    paramBoolean.b.a(arrayOfByte);
+  }
+
+  public final void setEnrollmentListeningMode(int paramInt)
+  {
+    d locald = new d(this, null);
+    this.c = locald;
+    int i1 = paramInt;
+    paramInt = locald;
+    byte[] arrayOfByte = { 10, 0, -128, 1, 1, 0, 0, (byte)i1 };
+    paramInt.b.a(arrayOfByte);
+  }
+
+  public final void clearEnrolledSources()
+  {
+    d locald = new d(this, null);
+    this.c = locald;
+    locald = locald;
+    byte[] arrayOfByte = { 10, 0, -128, 1, 1, 0, 0, -1 };
+    locald.b.a(arrayOfByte);
+  }
+
+  public final Message createMessage(Class paramClass)
+  {
+    Class tmp4_1 = o;
+    if (tmp4_1 == null)
+    {
+      tmp4_1;
+      try
+      {
+        tmpTernaryOp = (l.o = Class.forName("deltadore.x2d.security.AlarmCentralUnitMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException1)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException1.getMessage());
+      }
+    }
+    if (paramClass == tmp4_1)
+      return new C();
+    Class tmp48_45 = p;
+    if (tmp48_45 == null)
+    {
+      tmp48_45;
+      try
+      {
+        tmpTernaryOp = (l.p = Class.forName("deltadore.x2d.security.AlarmCommandMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException2)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException2.getMessage());
+      }
+    }
+    if (paramClass == tmp48_45)
+      return new K();
+    Class tmp92_89 = q;
+    if (tmp92_89 == null)
+    {
+      tmp92_89;
+      try
+      {
+        tmpTernaryOp = (l.q = Class.forName("deltadore.x2d.security.AlarmCommandPanelMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException3)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException3.getMessage());
+      }
+    }
+    if (paramClass == tmp92_89)
+      return new al();
+    Class tmp136_133 = r;
+    if (tmp136_133 == null)
+    {
+      tmp136_133;
+      try
+      {
+        tmpTernaryOp = (l.r = Class.forName("deltadore.x2d.security.AlarmEventMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException4)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException4.getMessage());
+      }
+    }
+    if (paramClass == tmp136_133)
+      return new ak();
+    Class tmp180_177 = s;
+    if (tmp180_177 == null)
+    {
+      tmp180_177;
+      try
+      {
+        tmpTernaryOp = (l.s = Class.forName("deltadore.x2d.security.AlarmLogViewMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException5)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException5.getMessage());
+      }
+    }
+    if (paramClass == tmp180_177)
+      return new n();
+    Class tmp224_221 = t;
+    if (tmp224_221 == null)
+    {
+      tmp224_221;
+      try
+      {
+        tmpTernaryOp = (l.t = Class.forName("deltadore.x2d.security.AlarmPeripheralDeletionMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException6)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException6.getMessage());
+      }
+    }
+    if (paramClass == tmp224_221)
+      return new ao();
+    Class tmp268_265 = u;
+    if (tmp268_265 == null)
+    {
+      tmp268_265;
+      try
+      {
+        tmpTernaryOp = (l.u = Class.forName("deltadore.x2d.security.AlarmPeripheralLabelMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException7)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException7.getMessage());
+      }
+    }
+    if (paramClass == tmp268_265)
+      return new P();
+    Class tmp312_309 = v;
+    if (tmp312_309 == null)
+    {
+      tmp312_309;
+      try
+      {
+        tmpTernaryOp = (l.v = Class.forName("deltadore.x2d.security.AlarmTimeMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException8)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException8.getMessage());
+      }
+    }
+    if (paramClass == tmp312_309)
+      return new U();
+    Class tmp356_353 = w;
+    if (tmp356_353 == null)
+    {
+      tmp356_353;
+      try
+      {
+        tmpTernaryOp = (l.w = Class.forName("deltadore.x2d.remote.BasicCommandMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException9)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException9.getMessage());
+      }
+    }
+    if (paramClass == tmp356_353)
+      return new aq();
+    Class tmp400_397 = x;
+    if (tmp400_397 == null)
+    {
+      tmp400_397;
+      try
+      {
+        tmpTernaryOp = (l.x = Class.forName("deltadore.x2d.metering.CompositeMeterReadingMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException10)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException10.getMessage());
+      }
+    }
+    if (paramClass == tmp400_397)
+      return new m();
+    Class tmp444_441 = y;
+    if (tmp444_441 == null)
+    {
+      tmp444_441;
+      try
+      {
+        tmpTernaryOp = (l.y = Class.forName("deltadore.x2d.metering.CurrentTransformerDefinitionMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException11)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException11.getMessage());
+      }
+    }
+    if (paramClass == tmp444_441)
+      return new an();
+    Class tmp488_485 = z;
+    if (tmp488_485 == null)
+    {
+      tmp488_485;
+      try
+      {
+        tmpTernaryOp = (l.z = Class.forName("deltadore.x2d.security.DataTransferMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException12)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException12.getMessage());
+      }
+    }
+    if (paramClass == tmp488_485)
+      return new am();
+    Class tmp532_529 = A;
+    if (tmp532_529 == null)
+    {
+      tmp532_529;
+      try
+      {
+        tmpTernaryOp = (l.A = Class.forName("deltadore.x2d.security.DataTransferNotificationMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException13)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException13.getMessage());
+      }
+    }
+    if (paramClass == tmp532_529)
+      return new ap();
+    Class tmp576_573 = B;
+    if (tmp576_573 == null)
+    {
+      tmp576_573;
+      try
+      {
+        tmpTernaryOp = (l.B = Class.forName("deltadore.x2d.sensor.DetectionMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException14)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException14.getMessage());
+      }
+    }
+    if (paramClass == tmp576_573)
+      return new f();
+    Class tmp620_617 = C;
+    if (tmp620_617 == null)
+    {
+      tmp620_617;
+      try
+      {
+        tmpTernaryOp = (l.C = Class.forName("deltadore.x2d.security.DistressMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException15)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException15.getMessage());
+      }
+    }
+    if (paramClass == tmp620_617)
+      return new at();
+    Class tmp664_661 = D;
+    if (tmp664_661 == null)
+    {
+      tmp664_661;
+      try
+      {
+        tmpTernaryOp = (l.D = Class.forName("deltadore.x2d.common.EnrollmentMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException16)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException16.getMessage());
+      }
+    }
+    if (paramClass == tmp664_661)
+      return new ai();
+    Class tmp708_705 = E;
+    if (tmp708_705 == null)
+    {
+      tmp708_705;
+      try
+      {
+        tmpTernaryOp = (l.E = Class.forName("deltadore.x2d.hvac.FunctioningModeMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException17)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException17.getMessage());
+      }
+    }
+    if (paramClass == tmp708_705)
+      return new N();
+    Class tmp752_749 = F;
+    if (tmp752_749 == null)
+    {
+      tmp752_749;
+      try
+      {
+        tmpTernaryOp = (l.F = Class.forName("deltadore.x2d.hvac.HeatingLevelMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException18)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException18.getMessage());
+      }
+    }
+    if (paramClass == tmp752_749)
+      return new M();
+    Class tmp796_793 = G;
+    if (tmp796_793 == null)
+    {
+      tmp796_793;
+      try
+      {
+        tmpTernaryOp = (l.G = Class.forName("deltadore.x2d.metering.MeterReadingMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException19)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException19.getMessage());
+      }
+    }
+    if (paramClass == tmp796_793)
+      return new s();
+    Class tmp840_837 = H;
+    if (tmp840_837 == null)
+    {
+      tmp840_837;
+      try
+      {
+        tmpTernaryOp = (l.H = Class.forName("deltadore.x2d.remote.ScenarioCommandMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException20)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException20.getMessage());
+      }
+    }
+    if (paramClass == tmp840_837)
+      return new aF();
+    Class tmp884_881 = I;
+    if (tmp884_881 == null)
+    {
+      tmp884_881;
+      try
+      {
+        tmpTernaryOp = (l.I = Class.forName("deltadore.x2d.security.SirenMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException21)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException21.getMessage());
+      }
+    }
+    if (paramClass == tmp884_881)
+      return new i();
+    Class tmp928_925 = J;
+    if (tmp928_925 == null)
+    {
+      tmp928_925;
+      try
+      {
+        tmpTernaryOp = (l.J = Class.forName("deltadore.x2d.security.TelephoneTransmitterMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException22)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException22.getMessage());
+      }
+    }
+    if (paramClass == tmp928_925)
+      return new av();
+    Class tmp972_969 = K;
+    if (tmp972_969 == null)
+    {
+      tmp972_969;
+      try
+      {
+        tmpTernaryOp = (l.K = Class.forName("deltadore.x2d.sensor.TemperatureMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException23)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException23.getMessage());
+      }
+    }
+    if (paramClass == tmp972_969)
+      return new z();
+    Class tmp1016_1013 = L;
+    if (tmp1016_1013 == null)
+    {
+      tmp1016_1013;
+      try
+      {
+        tmpTernaryOp = (l.L = Class.forName("deltadore.x2d.remote.VariationCommandMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException24)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException24.getMessage());
+      }
+    }
+    if (paramClass == tmp1016_1013)
+      return new b();
+    Class tmp1060_1057 = M;
+    if (tmp1060_1057 == null)
+    {
+      tmp1060_1057;
+      try
+      {
+        tmpTernaryOp = (l.M = Class.forName("deltadore.x2d.remote.VariationMessage"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException25)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException25.getMessage());
+      }
+    }
+    if (paramClass == tmp1060_1057)
+      return new aB();
+    throw new IllegalArgumentException();
+  }
+
+  public final Request createRequest(Class paramClass)
+  {
+    Class tmp4_1 = N;
+    if (tmp4_1 == null)
+    {
+      tmp4_1;
+      try
+      {
+        tmpTernaryOp = (l.N = Class.forName("deltadore.x2d.common.CommonPortSettingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException1)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException1.getMessage());
+      }
+    }
+    if (paramClass == tmp4_1)
+      return new J();
+    Class tmp48_45 = O;
+    if (tmp48_45 == null)
+    {
+      tmp48_45;
+      try
+      {
+        tmpTernaryOp = (l.O = Class.forName("deltadore.x2d.common.CommonSettingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException2)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException2.getMessage());
+      }
+    }
+    if (paramClass == tmp48_45)
+      return new E();
+    Class tmp92_89 = P;
+    if (tmp92_89 == null)
+    {
+      tmp92_89;
+      try
+      {
+        tmpTernaryOp = (l.P = Class.forName("deltadore.x2d.metering.CurrentConsumptionRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException3)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException3.getMessage());
+      }
+    }
+    if (paramClass == tmp92_89)
+      return new I();
+    Class tmp136_133 = Q;
+    if (tmp136_133 == null)
+    {
+      tmp136_133;
+      try
+      {
+        tmpTernaryOp = (l.Q = Class.forName("deltadore.x2d.diagnostic.DiagnosticOverheatingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException4)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException4.getMessage());
+      }
+    }
+    if (paramClass == tmp136_133)
+      return new Q();
+    Class tmp180_177 = R;
+    if (tmp180_177 == null)
+    {
+      tmp180_177;
+      try
+      {
+        tmpTernaryOp = (l.R = Class.forName("deltadore.x2d.metering.EnergyConsumptionRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException5)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException5.getMessage());
+      }
+    }
+    if (paramClass == tmp180_177)
+      return new Z();
+    Class tmp224_221 = S;
+    if (tmp224_221 == null)
+    {
+      tmp224_221;
+      try
+      {
+        tmpTernaryOp = (l.S = Class.forName("deltadore.x2d.sensor.GetOutdoorTemperatureRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException6)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException6.getMessage());
+      }
+    }
+    if (paramClass == tmp224_221)
+      return new aD();
+    Class tmp268_265 = T;
+    if (tmp268_265 == null)
+    {
+      tmp268_265;
+      try
+      {
+        tmpTernaryOp = (l.T = Class.forName("deltadore.x2d.sensor.GetRoomTemperatureRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException7)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException7.getMessage());
+      }
+    }
+    if (paramClass == tmp268_265)
+      return new r();
+    Class tmp312_309 = U;
+    if (tmp312_309 == null)
+    {
+      tmp312_309;
+      try
+      {
+        tmpTernaryOp = (l.U = Class.forName("deltadore.x2d.light.LightCommandRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException8)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException8.getMessage());
+      }
+    }
+    if (paramClass == tmp312_309)
+      return new A();
+    Class tmp356_353 = V;
+    if (tmp356_353 == null)
+    {
+      tmp356_353;
+      try
+      {
+        tmpTernaryOp = (l.V = Class.forName("deltadore.x2d.light.LightGetColorRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException9)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException9.getMessage());
+      }
+    }
+    if (paramClass == tmp356_353)
+      return new c();
+    Class tmp400_397 = W;
+    if (tmp400_397 == null)
+    {
+      tmp400_397;
+      try
+      {
+        tmpTernaryOp = (l.W = Class.forName("deltadore.x2d.light.LightInfoRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException10)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException10.getMessage());
+      }
+    }
+    if (paramClass == tmp400_397)
+      return new aw();
+    Class tmp444_441 = X;
+    if (tmp444_441 == null)
+    {
+      tmp444_441;
+      try
+      {
+        tmpTernaryOp = (l.X = Class.forName("deltadore.x2d.light.LightSetColorRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException11)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException11.getMessage());
+      }
+    }
+    if (paramClass == tmp444_441)
+      return new ad();
+    Class tmp488_485 = Y;
+    if (tmp488_485 == null)
+    {
+      tmp488_485;
+      try
+      {
+        tmpTernaryOp = (l.Y = Class.forName("deltadore.x2d.light.LightSettingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException12)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException12.getMessage());
+      }
+    }
+    if (paramClass == tmp488_485)
+      return new L();
+    Class tmp532_529 = Z;
+    if (tmp532_529 == null)
+    {
+      tmp532_529;
+      try
+      {
+        tmpTernaryOp = (l.Z = Class.forName("deltadore.x2d.light.LightStatusRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException13)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException13.getMessage());
+      }
+    }
+    if (paramClass == tmp532_529)
+      return new az();
+    Class tmp576_573 = aa;
+    if (tmp576_573 == null)
+    {
+      tmp576_573;
+      try
+      {
+        tmpTernaryOp = (l.aa = Class.forName("deltadore.x2d.metering.PowerConsumptionRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException14)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException14.getMessage());
+      }
+    }
+    if (paramClass == tmp576_573)
+      return new aA();
+    Class tmp620_617 = ab;
+    if (tmp620_617 == null)
+    {
+      tmp620_617;
+      try
+      {
+        tmpTernaryOp = (l.ab = Class.forName("deltadore.x2d.rollershutter.RollerShutterCommandRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException15)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException15.getMessage());
+      }
+    }
+    if (paramClass == tmp620_617)
+      return new O();
+    Class tmp664_661 = ac;
+    if (tmp664_661 == null)
+    {
+      tmp664_661;
+      try
+      {
+        tmpTernaryOp = (l.ac = Class.forName("deltadore.x2d.rollershutter.RollerShutterInfoRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException16)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException16.getMessage());
+      }
+    }
+    if (paramClass == tmp664_661)
+      return new B();
+    Class tmp708_705 = ad;
+    if (tmp708_705 == null)
+    {
+      tmp708_705;
+      try
+      {
+        tmpTernaryOp = (l.ad = Class.forName("deltadore.x2d.rollershutter.RollerShutterSettingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException17)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException17.getMessage());
+      }
+    }
+    if (paramClass == tmp708_705)
+      return new u();
+    Class tmp752_749 = ae;
+    if (tmp752_749 == null)
+    {
+      tmp752_749;
+      try
+      {
+        tmpTernaryOp = (l.ae = Class.forName("deltadore.x2d.rollershutter.RollerShutterStatusRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException18)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException18.getMessage());
+      }
+    }
+    if (paramClass == tmp752_749)
+      return new D();
+    Class tmp796_793 = af;
+    if (tmp796_793 == null)
+    {
+      tmp796_793;
+      try
+      {
+        tmpTernaryOp = (l.af = Class.forName("deltadore.x2d.sensor.SetOutdoorTemperatureRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException19)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException19.getMessage());
+      }
+    }
+    if (paramClass == tmp796_793)
+      return new ae();
+    Class tmp840_837 = ag;
+    if (tmp840_837 == null)
+    {
+      tmp840_837;
+      try
+      {
+        tmpTernaryOp = (l.ag = Class.forName("deltadore.x2d.sensor.SetRoomTemperatureRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException20)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException20.getMessage());
+      }
+    }
+    if (paramClass == tmp840_837)
+      return new G();
+    Class tmp884_881 = ah;
+    if (tmp884_881 == null)
+    {
+      tmp884_881;
+      try
+      {
+        tmpTernaryOp = (l.ah = Class.forName("deltadore.x2d.sensor.TemperatureInfoRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException21)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException21.getMessage());
+      }
+    }
+    if (paramClass == tmp884_881)
+      return new S();
+    Class tmp928_925 = ai;
+    if (tmp928_925 == null)
+    {
+      tmp928_925;
+      try
+      {
+        tmpTernaryOp = (l.ai = Class.forName("deltadore.x2d.hvac.ThermicAntiFrostAdjustmentRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException22)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException22.getMessage());
+      }
+    }
+    if (paramClass == tmp928_925)
+      return new aa();
+    Class tmp972_969 = aj;
+    if (tmp972_969 == null)
+    {
+      tmp972_969;
+      try
+      {
+        tmpTernaryOp = (l.aj = Class.forName("deltadore.x2d.hvac.ThermicGetDelayTimeRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException23)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException23.getMessage());
+      }
+    }
+    if (paramClass == tmp972_969)
+      return new ab();
+    Class tmp1016_1013 = ak;
+    if (tmp1016_1013 == null)
+    {
+      tmp1016_1013;
+      try
+      {
+        tmpTernaryOp = (l.ak = Class.forName("deltadore.x2d.hvac.ThermicRegulationCommandRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException24)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException24.getMessage());
+      }
+    }
+    if (paramClass == tmp1016_1013)
+      return new ag();
+    Class tmp1060_1057 = al;
+    if (tmp1060_1057 == null)
+    {
+      tmp1060_1057;
+      try
+      {
+        tmpTernaryOp = (l.al = Class.forName("deltadore.x2d.hvac.ThermicRegulationStatusRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException25)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException25.getMessage());
+      }
+    }
+    if (paramClass == tmp1060_1057)
+      return new q();
+    Class tmp1104_1101 = am;
+    if (tmp1104_1101 == null)
+    {
+      tmp1104_1101;
+      try
+      {
+        tmpTernaryOp = (l.am = Class.forName("deltadore.x2d.hvac.ThermicSystemCommandRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException26)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException26.getMessage());
+      }
+    }
+    if (paramClass == tmp1104_1101)
+      return new X();
+    Class tmp1148_1145 = an;
+    if (tmp1148_1145 == null)
+    {
+      tmp1148_1145;
+      try
+      {
+        tmpTernaryOp = (l.an = Class.forName("deltadore.x2d.hvac.ThermicSystemStatusRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException27)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException27.getMessage());
+      }
+    }
+    if (paramClass == tmp1148_1145)
+      return new w();
+    Class tmp1192_1189 = ao;
+    if (tmp1192_1189 == null)
+    {
+      tmp1192_1189;
+      try
+      {
+        tmpTernaryOp = (l.ao = Class.forName("deltadore.x2d.hvac.ThermicInfoRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException28)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException28.getMessage());
+      }
+    }
+    if (paramClass == tmp1192_1189)
+      return new h();
+    Class tmp1236_1233 = ap;
+    if (tmp1236_1233 == null)
+    {
+      tmp1236_1233;
+      try
+      {
+        tmpTernaryOp = (l.ap = Class.forName("deltadore.x2d.hvac.ThermicSetDelayTimeRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException29)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException29.getMessage());
+      }
+    }
+    if (paramClass == tmp1236_1233)
+      return new ax();
+    Class tmp1280_1277 = aq;
+    if (tmp1280_1277 == null)
+    {
+      tmp1280_1277;
+      try
+      {
+        tmpTernaryOp = (l.aq = Class.forName("deltadore.x2d.hvac.ThermicSettingRequest"));
+      }
+      catch (ClassNotFoundException localClassNotFoundException30)
+      {
+        throw new NoClassDefFoundError(localClassNotFoundException30.getMessage());
+      }
+    }
+    if (paramClass == tmp1280_1277)
+      return new ah();
+    throw new IllegalArgumentException();
+  }
+
+  public final void initNetworks()
+  {
+    initNetworks(-1);
+  }
+
+  public final void initNetworks(int paramInt)
+  {
+    if (paramInt <= 0)
+      this.b = null;
+    else
+      this.b = new k[paramInt];
+    paramInt = new H(this, null);
+    this.c = paramInt;
+    paramInt = paramInt;
+    byte[] arrayOfByte = { 10, 0, -128, 10 };
+    paramInt.b.a(arrayOfByte);
+  }
+
+  public final int getNetworkCount()
+  {
+    if (this.b == null)
+      return 0;
+    return this.b.length;
+  }
+
+  public final Network getNetwork(int paramInt)
+  {
+    return this.b[paramInt];
+  }
+
+  public final void sendMessage(Message paramMessage, RadioFrequency paramRadioFrequency)
+  {
+    paramMessage = new d(this, (aE)paramMessage);
+    this.c = paramMessage;
+    paramRadioFrequency = paramRadioFrequency;
+    (paramMessage = paramMessage).a.g = paramRadioFrequency;
+    paramRadioFrequency = paramMessage.a.a();
+    paramMessage.b.a(paramRadioFrequency);
+  }
+
+  public final void beginTransaction(Request paramRequest)
+  {
+    paramRequest = new T(this, (au)paramRequest);
+    this.c = paramRequest;
+    byte[] arrayOfByte = (paramRequest = paramRequest).c.a(null);
+    paramRequest.b.a(arrayOfByte);
+  }
+
+  public final void sendFrame(byte[] paramArrayOfByte)
+  {
+    this.c = new g(this);
+    a(paramArrayOfByte);
+  }
+
+  public final void sendFrame(String paramString)
+  {
+    this.c = new g(this);
+    paramString = paramString;
+    Vector localVector = new Vector();
+    for (int i1 = 0; i1 < paramString.length(); i1++)
+      if (paramString.charAt(i1) != ' ')
+      {
+        String str = paramString.substring(i1, i1 + 2);
+        localVector.addElement(new Byte((byte)Integer.parseInt(str, 16)));
+        i1++;
+      }
+    byte[] arrayOfByte = new byte[localVector.size()];
+    int i2 = 0;
+    paramString = localVector.elements();
+    while (paramString.hasMoreElements())
+    {
+      arrayOfByte[i2] = ((Byte)paramString.nextElement()).byteValue();
+      i2++;
+    }
+    paramString = arrayOfByte;
+    a(paramString);
+  }
+
+  final void a(byte[] paramArrayOfByte)
+  {
+    byte[] arrayOfByte1 = new byte[(paramArrayOfByte = paramArrayOfByte).length + 2];
+    System.arraycopy(paramArrayOfByte, 0, arrayOfByte1, 0, paramArrayOfByte.length);
+    byte[] arrayOfByte2;
+    int i1 = W.a(arrayOfByte2 = paramArrayOfByte, 0, arrayOfByte2.length);
+    arrayOfByte1[paramArrayOfByte.length] = ((byte)(i1 >> 8));
+    arrayOfByte1[(paramArrayOfByte.length + 1)] = ((byte)i1);
+    paramArrayOfByte = arrayOfByte1;
+    try
+    {
+      synchronized (this.h)
+      {
+        this.h.write(paramArrayOfByte);
+        this.h.flush();
+        this.a.f();
+      }
+      b(new FrameIoEvent(this, paramArrayOfByte));
+      return;
+    }
+    catch (IOException localIOException)
+    {
+      ( = localIOException).printStackTrace();
+    }
+  }
+
+  public final void clearStatistics()
+  {
+    this.a.i();
+  }
+
+  public final void run()
+  {
+    int i2 = 0;
+    byte[] arrayOfByte2 = new byte[100];
+    long l1 = 0L;
+    while (!this.e)
+    {
+      int i1;
+      try
+      {
+        i1 = this.g.read();
+      }
+      catch (IOException localIOException2)
+      {
+        IOException localIOException1;
+        (localIOException1 = localIOException2).printStackTrace();
+        break;
+      }
+      try
+      {
+        if (i1 == -1)
+        {
+          if (i2 > 0)
+          {
+            this.a.h();
+            i2 = 0;
+          }
+        }
+        else
+        {
+          long l2;
+          long l3 = (l2 = System.currentTimeMillis()) - l1;
+          l1 = l2;
+          if ((l3 > 500L) && (i2 > 0))
+          {
+            this.a.h();
+            i2 = 0;
+          }
+          arrayOfByte2[i2] = ((byte)i1);
+          i2++;
+          if (i2 > 0)
+            if (i2 == arrayOfByte2[0])
+            {
+              byte[] arrayOfByte1 = new byte[i2];
+              System.arraycopy(arrayOfByte2, 0, arrayOfByte1, 0, i2);
+              i2 = 0;
+              this.c.b(arrayOfByte1);
+            }
+            else if (i2 > arrayOfByte2[0])
+            {
+              this.a.g();
+              i2 = 0;
+            }
+        }
+      }
+      catch (Exception localException2)
+      {
+        Exception localException1;
+        (localException1 = localException2).printStackTrace();
+        this.a.g();
+        i2 = 0;
+      }
+    }
+    this.f = false;
+  }
+}

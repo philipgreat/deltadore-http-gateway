@@ -1,0 +1,29 @@
+/*
+ÀÈµÆ£ºON                        00 55 00 7F 79 FF E3 55 E0
+                 OFF                    00 55 00 7F 78 FF DF 55 E0
+
+»Ø¼Ò£º                          00 55 00 7F 7C FF EF 55 C0
+                                                00 55 00 7F 7D FF F3 55 C0
+
+Àë¼Ò£º                          00 55 00 7F 7B FF EB 55 E0
+                                                00 55 00 7F 7A FF E7 55 E0
+
+È«¹Ø£º                          00 55 00 7F 7F FF FB 55 E0
+
+¹Ø¿ª£º                          00 55 00 7F 7E FF F7 55 E0
+
+Ô¡ÊÒµÆ:                                 00 55 00 BF 7E FF F5 55 E0
+                                                00 55 00 BF 7F FF F9 55 E0
+
+±³¾°µÆ£º                        00 55 00 BF 71 FF C1 55 E0
+                                                00 55 00 BF 70 FF BD 55 E0
+
+ÔìÐÍÉäµÆµ÷¹â£º  00 55 00 BF 7D FF F1 55 E0
+                                                00 55 00 BF 78 FF DD 55 E0 brighter
+                                                00 55 00 BF 76 FF D5 55 E0 dim
+
+ÔìÐÍÌ¨µÆµ÷¹â£º  00 55 00 BF 7A FF E5 55 E0
+                                                00 55 00 BF 74 FF CD 55 E0 brighter
+                                                00 55 00 BF 72 FF C5 55 C0 dim
+*/
+

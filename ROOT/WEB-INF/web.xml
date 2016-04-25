@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+
+
+<web-app>
+
+
+
+
+
+ <servlet>
+    <servlet-name>hacontrol</servlet-name>
+    <display-name>HAControler</display-name>
+    <description>HAControle</description>
+    <servlet-class>com.terapico.hacontrol.server.HAServlet</servlet-class>   
+    <load-on-startup>1</load-on-startup> 
+     <init-param>
+ 		<param-name>port</param-name>
+ 		<param-value>/dev/ttyUSB0</param-value>
+ 	</init-param>
+    
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>hacontrol</servlet-name>
+    <url-pattern>/hacontrol/**</url-pattern>
+  </servlet-mapping>
+
+   <servlet>
+    <servlet-name>softcontroller</servlet-name>
+    <display-name>softcontroller</display-name>
+    <description>softcontroller</description>
+    <servlet-class>com.terapico.hacontrol.server.SoftHAServlet</servlet-class>   
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>softcontroller</servlet-name>
+    <url-pattern>/softcontrol/**</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>haurlbroadcast</servlet-name>
+    <display-name>haurlbroadcast</display-name>
+    <description>Ip Address Broadcasting Service for easy access</description>
+    <servlet-class>com.terapico.hacontrol.server.HAControlerURLBroadcastService</servlet-class>
+   <load-on-startup>2</load-on-startup> 
+    <init-param>
+ 		<param-name>urltempate</param-name>
+ 		<param-value>http://{serverIp}/hacontrol</param-value>
+ 	</init-param>
+    
+  </servlet>
+  
+
+  
+  <servlet-mapping>
+    <servlet-name>haurlbroadcast</servlet-name>
+    <url-pattern>/haurlbroadcast/**</url-pattern>
+  </servlet-mapping>
+
+ 
+
+  <welcome-file-list>
+  <welcome-file>index.html</welcome-file>
+
+  <welcome-file>controlpanel.html</welcome-file>
+     <welcome-file>simulatepanel.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+
+  </welcome-file-list>
+
+
+
+
+
+</web-app>

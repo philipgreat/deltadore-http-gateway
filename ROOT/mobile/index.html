@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://vnjs.net/www/project/freewall/example/image-layout.html -->
+<html slick-uniqueid="3"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>控制灯光</title>
+
+<meta name="keywords" content="javascript, dynamic, grid, layout, jquery plugin, images layouts">
+
+<link rel="stylesheet" type="text/css" href="./index_files/style.css">
+<script type="text/javascript" src="./index_files/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="./index_files/freewall.js"></script>
+<style type="text/css">
+.free-wall {
+	margin: 15px;
+}
+xcell {
+   margin: 0;
+   position: absolute;              
+   top: 50%;                       
+   transform: translate(0, -50%);
+   text-align: center;
+   background-color: #7f7f7f';
+   width: 400px;
+   height: 400px;
+}   
+
+<p id="myoutercontainer2">
+	Hey, this is vertically centered. Yay!
+</p>
+		</style>
+
+</head>
+	<body data-feedly-mini="yes">
+
+		<div id="freewall" class="free-wall" data-min-width="1600"
+		data-total-col="78" data-total-row="11" data-wall-width="1553"
+		data-wall-height="900" style="position: relative; height: 900;">
+
+
+</div>
+
+<script type="text/javascript">
+	//var temp = "<div class='cell' style='width:{width}px; height: {height}px; background-image: url(i/photo/{index}.jpg)'></div>";
+	//var temp = "<div class='cell xcell' style='width:{width}px; height: {height}px; background-color: #7f7f7f'></div>";
+
+	var temp = "<div class='xcell cell' style='width:400px; height: 200px; background-color: #7f7f7f; text-align: center' data-command='{command}'><p style='vertical-align: middle; height: 100%'>{text}</p></div>";
+
+	//temp += "<div class='cell' style='width:{width}px; height: {height}px; >关闭</div>";
+	var functions=[
+	"全部打开","/hacontrol/switchOnLights/0/0;1;2;3;4/",			
+	"全部关闭","/hacontrol/switchOffLights/0/0;1;2;3;4/",
+	"开射灯","/hacontrol/switchOnLights/0/4/",			
+	"关射灯","/hacontrol/switchOffLight/0/4/",
+	"开灯带（电视上方）","/hacontrol/switchOnLights/0/0/",			
+	"关灯带（电视上方）","/hacontrol/switchOffLight/0/0/",
+	"开灯带（窗户上方）","/hacontrol/switchOnLights/0/1/",			
+	"关灯带（窗户上方）","/hacontrol/switchOffLight/0/1/",
+	"开灯带（沙发上方）","/hacontrol/switchOnLights/0/2/",			
+	"关灯带（沙发上方）","/hacontrol/switchOffLight/0/2/",
+	"开灯带（走道上方）","/hacontrol/switchOnLights/0/3/",			
+	"关灯带（走道上方）","/hacontrol/switchOffLight/0/3/"	
+	
+	];
+	//var commands=["全部开打","全部关闭"];
+
+	var w = 1, html = '', limitItem = 6;
+	for (var i = 0; i < functions.length/2; ++i) {
+		w = 400 ;
+		html += temp.
+			replace("{text}", functions[2*i]).
+			replace("{command}",functions[2*i+1]);
+	}
+	$("#freewall").html(html);
+
+	var wall = new freewall("#freewall");
+	wall.reset({
+		selector: '.cell',
+		animate: true,
+		cellW: 400,
+		cellH: 200,
+		onResize: function() {
+			wall.fitWidth();
+		}
+	});
+	wall.fitWidth();
+	// for scroll bar appear;
+	$(window).trigger("resize");
+
+	$( document ).ready(function() {
+			$( ".cell" ).click(function (){
+				var $cell = $( this );
+				//alert($cell.attr('data-command'));
+				$.get( $cell.attr('data-command'));
+			} );
+	});
+
+
+</script>
+
+<iframe frameborder="0" scrolling="no" style="border: 0px; display: none; background-color: transparent;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="null" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:false,&quot;ss&quot;:true}" style="display: none;"></div>
+<div id="feedly-mini" title="feedly Mini tookit"></div></body></html>
