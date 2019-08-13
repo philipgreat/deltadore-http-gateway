@@ -34,6 +34,7 @@ public class HAServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		
 		log("Init the context for the server!");
+		System.out.print("java.library.path"+System.getProperty("java.library.path"));
 		
 		//System.getProperties().list(System.out);		
 		controller = RXTXDeltaDoreController.instance();
